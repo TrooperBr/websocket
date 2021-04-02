@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html lang="pt-br">
+	<head>
+		<link rel="stylesheet" type="text/css" href="main.css">
+	</head>
+	<body>
+		<div>
+			<input id ="username" name="username">
+			<button onclick="setUserName()">SetUserName</button>
+		</div>
+		<data>
+			<input type="text" id="input_menssagem" class="textinput">
+		</data>
+		<button onclick="sendMsg()">Send Msg</button>
+	</body>
+	<script type="text/javascript">
+		// websocket connectiSSSon
+
+		const socket = new WebSocket('ws://localhost:8765');
+		var username = "default_user";
+
+
+
+		// connection opened
+		socket.addEventListener(
+			'open', function (event) {
+				console.log('connected to server, but not have data to hanking your account, use a chat')
+			});
+
+		// connection closed
+		socket.addEventListener(
+			'close', function (event) {
+				console.log('connection has been closed! come back later =)')
+			});
+
+		// Listen for message
+
+		socket.addEventListener(
+			'message', function (event) {
+				console.log('message from server :'+ event.data + '::::'+username);
+			});
+
+		const sendMsg = () => {
+			socket.send(document.getElementById("input_menssagem").value)
+		}
+		const setUserName = () =>{
+			username = document.getElementById("username").value
+		}
+
+	</script>
+</html>
